@@ -1,0 +1,100 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+@import "tailwindcss";
+
+:root {
+  font-family: 'Inter', sans-serif;
+  color: #ffffff;
+  background: #060411;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background:
+    radial-gradient(ellipse at 50% -15%, rgba(79, 70, 229, 0.28), transparent 55%),
+    radial-gradient(ellipse at 5% 35%, rgba(91, 33, 182, 0.14), transparent 38%),
+    radial-gradient(ellipse at 95% 65%, rgba(67, 56, 202, 0.12), transparent 40%),
+    #060411;
+}
+
+button, input, textarea {
+  font: inherit;
+}
+
+button, a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+::selection {
+  background: rgba(99, 102, 241, 0.4);
+  color: white;
+}
+
+::-webkit-scrollbar {
+  width: 7px;
+}
+
+::-webkit-scrollbar-track {
+  background: #060411;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #39305c;
+  border-radius: 20px;
+}
+
+.glass-card {
+  background: rgba(15, 15, 35, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  backdrop-filter: blur(18px);
+  border-radius: 1.25rem;
+}
+
+.gradient-text {
+  background: linear-gradient(100deg, #c4b5fd, #818cf8, #fbbf24);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.gradient-button {
+  background: #4f46e5;
+  transition: all 0.25s ease;
+}
+
+.gradient-button:hover {
+  background: #6366f1;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(79, 70, 229, 0.25);
+}
+
+.section-container {
+  width: min(100% - 3rem, 80rem);
+  margin-inline: auto;
+}
+
+.hero-glow {
+  box-shadow: 0 0 100px rgba(79, 70, 229, 0.18);
+}
+
+.section-anchor {
+  scroll-margin-top: 100px;
+}
+
+@media (max-width: 640px) {
+  .section-container {
+    width: min(100% - 2rem, 80rem);
+  }
+}
