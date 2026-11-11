@@ -141,6 +141,7 @@ function UploadLecture() {
       {/* BACKGROUND */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         <div className="absolute -top-40 left-1/4 w-[600px] h-[500px] bg-indigo-700/20 blur-[150px] rounded-full" />
+
         <div className="absolute top-[500px] -right-40 w-[450px] h-[450px] bg-violet-700/15 blur-[150px] rounded-full" />
       </div>
 
@@ -156,11 +157,13 @@ function UploadLecture() {
 
               {/* FILE INPUT */}
               <div className="glass-card p-5 sm:p-7">
+
                 <div className="flex items-center justify-between mb-6">
                   <div>
                     <h2 className="text-white text-lg font-bold">
                       Upload your file
                     </h2>
+
                     <p className="text-slate-500 text-xs mt-2">
                       Select a lecture recording from your device.
                     </p>
@@ -176,24 +179,47 @@ function UploadLecture() {
                   onChange={event => handleFile(event.target.files[0])}
                 />
 
-                {!file ? (
-                  <FileDropzone
-                    dragActive={dragActive}
-                    onBrowse={openFilePicker}
-                    onDragOver={handleDragOver}
-                    onDragLeave={handleDragLeave}
-                    onDrop={handleDrop}
-                  />
-                ) : (
-                  <SelectedFile
-                    file={file}
-                    isAudio={isAudio}
-                    formatSize={formatSize}
-                    onRemove={removeFile}
-                    onChoose={openFilePicker}
-                  />
-                )}
+                {/* NEON DROPZONE WRAPPER */}
+                <div className="relative isolate group/dropzone">
 
+                  {/* Animated-style purple glow */}
+                  <div
+                    className={`pointer-events-none absolute -inset-1 rounded-2xl bg-gradient-to-r from-indigo-600 via-violet-500 to-fuchsia-500 blur-xl transition-opacity duration-500 ${
+                      dragActive
+                        ? 'opacity-45'
+                        : 'opacity-0 group-hover/dropzone:opacity-25'
+                    }`}
+                  />
+
+                  {/* Neon border surface */}
+                  <div
+                    className={`relative rounded-2xl border transition-all duration-300 ${
+                      dragActive
+                        ? 'border-violet-400/70 bg-violet-500/[0.06] shadow-[0_0_30px_rgba(139,92,246,0.18)]'
+                        : 'border-violet-500/20 bg-[#0b0818]/30 group-hover/dropzone:border-violet-400/50'
+                    }`}
+                  >
+                    {!file ? (
+                      <FileDropzone
+                        dragActive={dragActive}
+                        onBrowse={openFilePicker}
+                        onDragOver={handleDragOver}
+                        onDragLeave={handleDragLeave}
+                        onDrop={handleDrop}
+                      />
+                    ) : (
+                      <SelectedFile
+                        file={file}
+                        isAudio={isAudio}
+                        formatSize={formatSize}
+                        onRemove={removeFile}
+                        onChoose={openFilePicker}
+                      />
+                    )}
+                  </div>
+                </div>
+
+                {/* ERROR MESSAGE */}
                 {error && (
                   <div className="mt-5 bg-red-500/10 border border-red-500/20 rounded-xl p-4 text-red-300 text-xs leading-5">
                     {error}
@@ -240,6 +266,7 @@ function UploadLecture() {
                   </p>
                 </div>
               )}
+
             </div>
 
             {/* RIGHT SIDE */}

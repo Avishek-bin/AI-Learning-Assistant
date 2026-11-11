@@ -364,7 +364,7 @@ function FeatureCard({ feature, index }) {
 
 function FeatureGrid() {
   return (
-    <section className="relative overflow-hidden px-5 py-24 sm:px-8 lg:px-12">
+    <section id="features" className="scroll-mt-24 relative overflow-hidden px-5 py-24 sm:px-8 lg:px-12">
       <div className="pointer-events-none absolute left-1/2 top-1/3 h-[500px] w-[700px] -translate-x-1/2 rounded-full bg-violet-700/[0.09] blur-[140px]" />
 
       <div className="relative mx-auto max-w-7xl">
