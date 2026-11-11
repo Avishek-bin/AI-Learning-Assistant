@@ -2,6 +2,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import api from '../../services/api'
 
+
 export const fetchLectures = createAsyncThunk(
   'lectures/fetchLectures',
   async (_, { rejectWithValue }) => {
@@ -43,12 +44,16 @@ const lectureSlice = createSlice({
   },
 
   reducers: {
-    removeLecture: (state, action) => {
-      state.lectures = state.lectures.filter(
-        lecture => (lecture._id || lecture.id) !== action.payload
-      )
-    }
+  addLocalLecture: (state, action) => {
+    state.lectures.unshift(action.payload)
   },
+
+  removeLecture: (state, action) => {
+    state.lectures = state.lectures.filter(
+      lecture => (lecture._id || lecture.id) !== action.payload
+    )
+  }
+},
 
   extraReducers: builder => {
     builder
@@ -80,5 +85,5 @@ const lectureSlice = createSlice({
   }
 })
 
-export const { removeLecture } = lectureSlice.actions
+export const { addLocalLecture, removeLecture } = lectureSlice.actions
 export default lectureSlice.reducer

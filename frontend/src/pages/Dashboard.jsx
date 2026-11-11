@@ -18,7 +18,8 @@ import {
   SlidersHorizontal,
   FileText
 } from 'lucide-react'
-import { fetchLectures } from '../features/lectures/lectureSlice'
+
+
 
 function Dashboard() {
   const dispatch = useDispatch()

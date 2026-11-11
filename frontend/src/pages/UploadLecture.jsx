@@ -17,8 +17,13 @@ import {
   CloudUpload,
   FolderOpen
 } from 'lucide-react'
+import { useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+import { addLocalLecture } from '../features/lectures/lectureSlice'
 
 function UploadLecture() {
+  const dispatch = useDispatch()
+const navigate = useNavigate()
   const inputRef = useRef(null)
 
   const [file, setFile] = useState(null)
@@ -90,27 +95,34 @@ function UploadLecture() {
   }
 
   const handleSubmit = event => {
-    event.preventDefault()
-    setError('')
-    setValidated(false)
+  event.preventDefault()
+  setError('')
 
-    if (!file) {
-      setError('Please select a video or audio file first.')
-      return
-    }
-
-    if (!title.trim()) {
-      setError('Please enter a lecture title.')
-      return
-    }
-
-    if (!subject.trim()) {
-      setError('Please enter the lecture subject.')
-      return
-    }
-
-    setValidated(true)
+  if (!file) {
+    setError('Please select a video or audio file first.')
+    return
   }
+
+  if (!title.trim() || !subject.trim()) {
+    setError('Please enter both lecture title and subject.')
+    return
+  }
+
+  const newLecture = {
+    id: `local-${Date.now()}`,
+    title: title.trim(),
+    subject: subject.trim(),
+    fileName: file.name,
+    fileSize: file.size,
+    duration: 0,
+    date: new Date().toISOString(),
+    status: 'Processing',
+    localOnly: true
+  }
+
+  dispatch(addLocalLecture(newLecture))
+  navigate('/lectures')
+}
 
   const isAudio = file?.type.startsWith('audio/') ||
     ['mp3', 'wav', 'm4a'].includes(file?.name.split('.').pop().toLowerCase())

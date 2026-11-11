@@ -21,6 +21,35 @@ import {
   ChevronRight
 } from 'lucide-react'
 import { Link } from 'react-router-dom'
+import { motion } from 'motion/react'
+import Reveal from '../components/motion/Reveal'
+
+const headlineVariants = {
+  hidden: {},
+  visible: {
+    transition: {
+      staggerChildren: 0.09,
+      delayChildren: 0.15
+    }
+  }
+}
+
+const wordVariants = {
+  hidden: {
+    opacity: 0,
+    y: 35,
+    filter: 'blur(8px)'
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+    filter: 'blur(0px)',
+    transition: {
+      duration: 0.65,
+      ease: [0.22, 1, 0.36, 1]
+    }
+  }
+}
 
 function Landing() {
   const features = [
@@ -121,13 +150,37 @@ function Landing() {
               Upload. Learn. Ask. Grow.
             </div>
 
-            <h1 className="text-4xl sm:text-5xl lg:text-[66px] font-extrabold text-white leading-[1.13] tracking-tight mb-8">
-              Turn any lecture into{' '}
-              <span className="inline-block border border-amber-400/40 bg-amber-400/10 px-3 py-1 rounded-xl text-amber-300">
-                notes, quizzes
-              </span>{' '}
-              and answers.
-            </h1>
+            <motion.h1
+  variants={headlineVariants}
+  initial="hidden"
+  animate="visible"
+  className="text-4xl sm:text-5xl lg:text-[66px] font-extrabold text-white leading-[1.13] tracking-tight mb-8"
+>
+  {['Turn', 'any', 'lecture', 'into'].map(word => (
+    <motion.span
+      key={word}
+      variants={wordVariants}
+      className="inline-block mr-[0.25em]"
+    >
+      {word}
+    </motion.span>
+  ))}
+
+  <motion.span
+    variants={wordVariants}
+    className="inline-block border border-amber-400/40 bg-amber-400/10 px-3 py-1 rounded-xl text-amber-300 mr-2"
+  >
+    notes, quizzes
+  </motion.span>
+
+  <motion.span variants={wordVariants} className="inline-block mr-[0.25em]">
+    and
+  </motion.span>
+
+  <motion.span variants={wordVariants} className="inline-block">
+    answers.
+  </motion.span>
+</motion.h1>
 
             <p className="text-slate-400 text-base sm:text-lg leading-8 max-w-xl mb-10">
               Drop in a video or audio file. Get a timestamped transcript,
@@ -166,8 +219,16 @@ function Landing() {
           <div className="lg:col-span-5 relative">
             <div className="absolute inset-0 bg-indigo-600/20 blur-[90px] rounded-full" />
 
-            <div className="relative bg-slate-900/80 border border-white/10 rounded-3xl p-5 sm:p-7 shadow-2xl shadow-indigo-950/50 backdrop-blur-xl transform lg:rotate-1 hover:rotate-0 transition-transform duration-500">
-
+           <motion.div
+  className="relative bg-slate-900/80 border border-white/10 rounded-3xl p-5 sm:p-7 shadow-2xl shadow-indigo-950/50 backdrop-blur-xl"
+  animate={{ y: [-6, 6] }}
+  transition={{
+    duration: 4,
+    ease: 'easeInOut',
+    repeat: Infinity,
+    repeatType: 'mirror'
+  }}
+>
               <div className="flex flex-wrap items-center justify-between gap-3 mb-7">
                 <span className="bg-indigo-600/20 text-indigo-300 border border-indigo-500/30 text-xs px-3 py-2 rounded-full font-medium">
                   <Sparkles size={12} className="inline mr-1" />
@@ -218,13 +279,23 @@ function Landing() {
                 </div>
                 <CheckCircle2 size={17} className="ml-auto text-emerald-400" />
               </div>
-            </div>
+            </motion.div>
 
             {/* FLOATING NOTIFICATION */}
-            <div className="hidden sm:flex absolute -bottom-7 -right-4 lg:-right-8 bg-amber-400 text-slate-950 text-xs font-bold px-5 py-4 rounded-xl shadow-2xl items-center gap-3 border border-amber-300">
-              <MessageCircle size={17} />
-              "What is an array?" answered
-            </div>
+            <motion.div
+  initial={{ opacity: 0, scale: 0.6, y: 25 }}
+  animate={{ opacity: 1, scale: 1, y: 0 }}
+  transition={{
+    type: 'spring',
+    stiffness: 300,
+    damping: 18,
+    delay: 1.2
+  }}
+  className="hidden sm:flex absolute -bottom-7 -right-4 lg:-right-8 bg-amber-400 text-slate-950 text-xs font-bold px-5 py-4 rounded-xl shadow-2xl items-center gap-3 border border-amber-300"
+>
+  <MessageCircle size={17} />
+  "What is an array?" answered
+</motion.div>
           </div>
         </div>
       </section>
@@ -266,19 +337,40 @@ function Landing() {
         </div>
       </section>
 
-      {/* CAPABILITY TICKER */}
-      <section className="max-w-6xl mx-auto px-6 py-10">
-        <div className="flex flex-wrap justify-center gap-3">
-          {capabilities.map(item => (
-            <span
-              key={item}
-              className="bg-slate-900/60 border border-white/10 px-4 py-2.5 rounded-full text-xs text-slate-400 hover:text-white hover:border-indigo-500/50 transition-all"
-            >
-              {item}
-            </span>
-          ))}
-        </div>
-      </section>
+     
+{/* CAPABILITY TICKER */}
+<section className="max-w-6xl mx-auto px-6 py-10">
+  <div className="marquee-shell">
+    <div className="marquee-track">
+
+      {/* First group */}
+      <div className="marquee-group">
+        {capabilities.map((item, index) => (
+          <span
+            key={index}
+            className="bg-slate-900/60 border border-white/10 px-4 py-2.5 rounded-full text-xs text-slate-400 hover:text-white hover:border-indigo-500/50 transition-all whitespace-nowrap"
+          >
+            {item}
+          </span>
+        ))}
+      </div>
+
+      {/* Duplicate group for seamless scrolling */}
+      <div className="marquee-group" aria-hidden="true">
+        {capabilities.map((item, index) => (
+          <span
+            key={`duplicate-${index}`}
+            className="bg-slate-900/60 border border-white/10 px-4 py-2.5 rounded-full text-xs text-slate-400 whitespace-nowrap"
+          >
+            {item}
+          </span>
+        ))}
+      </div>
+
+    </div>
+  </div>
+</section>
+
 
       {/* FEATURES */}
       <section id="features" className="section-anchor max-w-7xl mx-auto px-6 lg:px-8 py-24">
